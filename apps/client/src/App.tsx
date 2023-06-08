@@ -8,7 +8,7 @@ function App() {
    const data = response.text()
    console.log(data)
    }}>
-    Click me
+     Soy un frontend y funciono
    </button>
   )
 }
