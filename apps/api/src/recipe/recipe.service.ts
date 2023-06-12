@@ -7,6 +7,33 @@ import { CreateRecipeDTO } from './dto/recipe.dto';
 
 @Injectable()
 export class RecipeService {
+  constructor(@InjectModel('Recipe') readonly recipeModel: Model<Recipe>) {}
 
-    constructor(@InjectModel('Recipe'))
+  async getRecipes(): Promise<Recipe[]> {
+    const recipes = await this.recipeModel.find();
+    return recipes;
+  }
+  async getRecipe(recipeID?: string): Promise<Recipe> {
+    const recipe = await this.recipeModel.findById(recipeID);
+    return recipe;
+  }
+  async createRecipe(createRecipeDTO: CreateRecipeDTO): Promise<Recipe> {
+    const recipe = new this.recipeModel(createRecipeDTO);
+    return await recipe.save();
+  }
+  async deleteRecipe(recipeID?: string): Promise<Recipe> {
+    const deletedRecipe = await this.recipeModel.findByIdAndDelete(recipeID);
+    return deletedRecipe;
+  }
+  async updateRecipe(
+    recipeID: string,
+    createRecipeDTO: CreateRecipeDTO,
+  ): Promise<Recipe> {
+    const updatedRecipe = await this.recipeModel.findByIdAndUpdate(
+      recipeID,
+      createRecipeDTO,
+      { new: true },
+    );
+    return updatedRecipe;
+  }
 }
