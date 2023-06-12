@@ -3,6 +3,7 @@ import './App.css'
 
 function App() {
   return (
+    <div className=''>
    <button onClick={async() => {
    const response = await fetch('/api')
    const data = response.text()
@@ -10,6 +11,7 @@ function App() {
    }}>
      Soy un frontend y funciono
    </button>
+   </div>
   )
 }
 

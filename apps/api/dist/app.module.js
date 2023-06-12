@@ -14,9 +14,9 @@ const serve_static_1 = require("@nestjs/serve-static");
 const path_1 = require("path");
 const recipe_module_1 = require("./recipe/recipe.module");
 const mongoose_1 = require("@nestjs/mongoose");
-let AppModule = exports.AppModule = class AppModule {
+let AppModule = class AppModule {
 };
-exports.AppModule = AppModule = __decorate([
+AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             serve_static_1.ServeStaticModule.forRoot({
@@ -31,4 +31,5 @@ exports.AppModule = AppModule = __decorate([
         providers: [app_service_1.AppService],
     })
 ], AppModule);
+exports.AppModule = AppModule;
 //# sourceMappingURL=app.module.js.map
