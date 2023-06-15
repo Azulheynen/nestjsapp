@@ -1,0 +1,29 @@
+<div *ngFor="let recipe of recipesvalue" class="card card-body mb-2">
+    <div class="row">
+      <div class="col-md-8">
+        <ul>
+          <li>
+            id: {{recipe.id}}
+          </li>
+          <li>
+            name: {{recipe.name}}
+          </li>
+          <li>
+            ingredients: {{recipe.ingredients}}
+          </li>
+          <li>
+            createdAt: {{recipe.createdAt}}
+          </li>
+        </ul>
+        <button (click)="deleteRecipe(recipe.id)" class="btn btn-danger">
+          Delete
+        </button>
+        <button [routerLink]="['/recipe/edit', recipe.id]" class="btn btn-secondary">
+          Edit
+        </button>
+      </div>
+      <div class="col-md-4">
+        <img [src]="recipe.imageURL" class="card-img">
+      </div>
+    </div>
+  </div>

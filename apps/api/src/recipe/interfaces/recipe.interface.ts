@@ -2,7 +2,7 @@ import { Document } from "mongoose";
 
 export interface Recipe extends Document {
   name: string;
-  description: string;
+  ingredients: string;
   imageURL: string;
   category: string;
   createdAt: Date;

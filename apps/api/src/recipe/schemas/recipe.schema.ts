@@ -2,7 +2,7 @@ import { Schema } from 'mongoose';
 
 export const RecipeSchema = new Schema({
   name: String,
-  description: String,
+  ingredients: String,
   imageURL: String,
   createdAt: { type: Date, default: Date.now },
 });
