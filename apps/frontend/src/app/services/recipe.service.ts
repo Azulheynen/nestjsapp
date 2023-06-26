@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import { Observable } from 'rxjs';
-import { Recipe } from '../interfaces/recipe';
+import { Recipe, RecipeWithoutID } from '../interfaces/recipe';
 
 import { ObjectId } from "mongodb";
 
@@ -30,7 +30,7 @@ export class RecipeService {
    }
 
 
-  createRecipe(recipe: Recipe): Observable<Recipe>{
+  createRecipe(recipe: RecipeWithoutID): Observable<Recipe>{
     return this.http.post<Recipe>(`${this.BASE_URL}/recipe/create`, recipe)
  
    }
@@ -38,7 +38,7 @@ export class RecipeService {
     return this.http.delete<Recipe>(`${this.BASE_URL}/recipe/delete?recipeID=${id}`)
    }
 
-  updateRecipe(id: string,recipe: string): Observable<Recipe>{
+  updateRecipe(id: string,recipe: RecipeWithoutID): Observable<Recipe>{
     return this.http.put<Recipe>(`${this.BASE_URL}/recipe/update?recipeID=${id}`, recipe)
    }
 }

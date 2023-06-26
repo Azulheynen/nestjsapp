@@ -4,4 +4,5 @@ export class CreateRecipeDTO {
   imageURL: string;
   category: string;
   createdAt: Date;
+  _id: string
 }

@@ -10,26 +10,20 @@ import {
   Param,
   NotFoundException,
   Query,
+  Req
 } from '@nestjs/common';
 
 import { CreateRecipeDTO } from './dto/recipe.dto';
+const  mongoose = require('mongoose');
 
 import { RecipeService } from './recipe.service';
 
 @Controller('recipe')
 export class RecipeController {
+
   constructor(private recipeService: RecipeService) {}
 
-  @Post('/create')
-  async createPost(@Res() res, @Body() createRecipeDTO: CreateRecipeDTO) {
-    const recipe = await this.recipeService.createRecipe(createRecipeDTO);
-    return res.status(HttpStatus.OK).json({
-      message: 'Recipe Created Succesfully',
-      recipe: recipe,
-
-    });
-  }
-
+ 
   @Get('/')
   async getRecipes(@Res() res) {
     const recipes = await this.recipeService.getRecipes();
@@ -39,7 +33,7 @@ export class RecipeController {
   }
 
   @Get('/:recipeID')
-  async getRecipe(@Res() res, @Param('recipeID') recipeID) {
+  async getRecipe(@Res() res,@Req() req, @Param('recipeID') recipeID) {
     const recipe = await this.recipeService.getRecipe(recipeID);
     if (!recipe) throw new NotFoundException('Recipe does not exist');
     return res.status(HttpStatus.OK).json(recipe);
@@ -54,6 +48,17 @@ export class RecipeController {
       recipeDeleted,
     });
   }
+
+  @Post('/create')
+  async createPost(@Res() res, @Body() createRecipeDTO: CreateRecipeDTO) {
+    const recipe = await this.recipeService.createRecipe(createRecipeDTO);
+    return res.status(HttpStatus.OK).json({
+      message: 'Recipe Created Succesfully',
+      recipe: recipe,
+
+    });
+  }
+
 
   @Put('/update')
   async updateRecipe(
