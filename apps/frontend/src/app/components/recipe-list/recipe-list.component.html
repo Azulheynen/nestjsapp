@@ -3,7 +3,7 @@
       <div class="col-md-8">
         <ul>
           <li>
-            id: {{recipe.id}}
+            id: {{recipe._id}}
           </li>
           <li>
             name: {{recipe.name}}
@@ -11,14 +11,11 @@
           <li>
             ingredients: {{recipe.ingredients}}
           </li>
-          <li>
-            createdAt: {{recipe.createdAt}}
-          </li>
         </ul>
-        <button (click)="deleteRecipe(recipe.id)" class="btn btn-danger">
+        <button (click)="deleteRecipe(recipe._id)" class="btn btn-danger">
           Delete
         </button>
-        <button [routerLink]="['/recipe/edit', recipe.id]" class="btn btn-secondary">
+        <button [routerLink]="['/recipe/edit', recipe._id]" class="btn btn-secondary">
           Edit
         </button>
       </div>

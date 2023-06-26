@@ -15,7 +15,7 @@ export class RecipeFormComponent implements OnInit{
     ingredients: '',
     imageURL: '',
     category: '',
-    id: ''
+    _id: '',
     }
 
 
