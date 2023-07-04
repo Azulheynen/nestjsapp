@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { subscribeOn } from 'rxjs';
+import { Observable } from 'rxjs';
+
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Recipe } from '../../interfaces/recipe'
+import { HttpClient } from '@angular/common/http';
+
 
 
 @Component({
@@ -9,21 +12,25 @@ import { Recipe } from '../../interfaces/recipe'
   templateUrl: './recipe-list.component.html',
   styleUrls: ['./recipe-list.component.css']
 })
+
 export class RecipeListComponent implements OnInit {
 
   recipes: Recipe[] = []
-
-  recipesvalue= this.recipes.values()
-
-
-
-  constructor(private recipeService: RecipeService){
+  
+  constructor(private recipeService: RecipeService, private http: HttpClient){
   }
+
+
+
+  private apiUrl = 'http://localhost:3000/api';
+
+
+
    ngOnInit() {
        this.getRecipes();
    } 
 
-  getRecipes(){
+  getRecipes(): Observable<Recipe[]>{
     this.recipeService.getRecipes()
     .subscribe({
       error: (e) => console.error(e),
@@ -32,11 +39,16 @@ export class RecipeListComponent implements OnInit {
         this.recipes = res
       }
   })
+  return        this.http.get<Recipe[]>(this.apiUrl + '/recipes');
+
 }
 
-deleteRecipe(id: string): void {
 
-  this.recipeService.deleteRecipe(id)
+
+deleteRecipe(
+  _id: string): void {
+
+  this.recipeService.deleteRecipe(_id)
     .subscribe({
       error: (e) => console.error(e),
       next: (res) => {

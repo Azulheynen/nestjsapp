@@ -8,7 +8,7 @@ import { RecipeListComponent } from './components/recipe-list/recipe-list.compon
 import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
+import { RecipeService } from './services/recipe.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +22,7 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [RecipeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

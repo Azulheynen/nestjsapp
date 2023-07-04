@@ -11,12 +11,14 @@ import mongoose from 'mongoose';
   styleUrls: ['./recipe-form.component.css'],
 })
 export class RecipeFormComponent implements OnInit {
+
   recipe: Recipe = {
     name: '',
     ingredients: '',
     imageURL: '',
     category: '',
     _id: '',
+    
   };
 
   edit: boolean = false;
@@ -29,8 +31,20 @@ export class RecipeFormComponent implements OnInit {
 
   ngOnInit(): void {
     // this.submitRecipe();
+    const params = this.activatedRoute.snapshot.params;
+    if (params.id) {
+      this.recipeService.getRecipe(params.id)
+      .subscribe({
+        error: (e) => console.error(e),
+        complete: () => console.info('complete'), 
+        next: (res) => {
+         let recipe = res
+          this.edit = true;
+        }
+    })
+    }
   }
-
+  
   submitRecipe() {
     console.log('submitting!!!')
     console.log({ recipe: this.recipe })
