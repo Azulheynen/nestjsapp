@@ -1,82 +1,65 @@
+import { CreateRecipeDTO } from './dto/create-recipe.dto';
 import {
   Controller,
-  Get,
   Post,
   Body,
-  HttpStatus,
-  Put,
-  Delete,
-  Res,
+  Get,
   Param,
-  NotFoundException,
-  Query,
-  Req
+  ParseIntPipe,
+  Delete,
+  Patch,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
-
-import { CreateRecipeDTO } from './dto/recipe.dto';
-const  mongoose = require('mongoose');
-
 import { RecipeService } from './recipe.service';
+import { Recipe } from './recipe.entity';
+import {UpdateRecipeDto} from './dto/update-recipe.dto'
+
+
 
 @Controller('recipe')
 export class RecipeController {
-
   constructor(private recipeService: RecipeService) {}
 
  
   @Get('/')
-  async getRecipes(@Res() res) {
+  async getRecipes() {
     const recipes = await this.recipeService.getRecipes();
-    return res.status(HttpStatus.OK).json({
-      recipes,
-    });
+    return  recipes
   }
 
-  @Get('/:recipeID')
-  async getRecipe(@Res() res,@Req() req, @Param('recipeID') recipeID) {
-    const recipe = await this.recipeService.getRecipe(recipeID);
-    if (!recipe) throw new NotFoundException('Recipe does not exist');
-    return res.status(HttpStatus.OK).json(recipe);
+  @Get('/:id')
+  async getRecipe(@Param('id', ParseIntPipe) id: number) {
+    const recipe = await this.recipeService.getRecipe(id);
+    if (!recipe) throw new HttpException('Recipe does not exist', HttpStatus.CONFLICT);
+   return this.recipeService.getRecipe(id);
   }
 
   @Delete('/delete')
-  async deleteRecipe(@Res() res, @Query('recipeID') recipeID) {
-    const recipeDeleted = await this.recipeService.deleteRecipe(recipeID);
-    if (!recipeDeleted) throw new NotFoundException('Recipe does not exist');
-    return res.status(HttpStatus.OK).json({
-      message: 'Recipe Deleted Succesfully',
-      recipeDeleted,
-    });
+  deleteUsers(@Param('id', ParseIntPipe) id: number) {
+  const recipeDeleted = this.recipeService.deleteRecipe(id);
+  if (!recipeDeleted) throw new HttpException('Recipe does not exist', HttpStatus.CONFLICT);
+  return `recipe with id : #${id} delete succesfully `;
   }
 
   @Post('/create')
-  async createPost(@Res() res, @Body() createRecipeDTO: CreateRecipeDTO) {
-    const recipe = await this.recipeService.createRecipe(createRecipeDTO);
-    return res.status(HttpStatus.OK).json({
-      message: 'Recipe Created Succesfully',
-      recipe: recipe,
+  createRecipe(@Body() newRecipe: CreateRecipeDTO) {
+    return this.recipeService.createRecipe(newRecipe);
+  }
+  
 
-    });
+  @Patch('/update')
+  updateRecipe(@Param('id', ParseIntPipe) id: number, @Body() recipe: UpdateRecipeDto) {
+    return this.recipeService.updateRecipe(id, recipe);
   }
 
-
-  @Put('/update')
-  async updateRecipe(
-    @Res() res,
-    @Body() CreateRecipeDTO: CreateRecipeDTO,
-    @Query('recipeID') recipeID,
+  @Post(':id/profile')
+  createProfile(
+    @Param('id', ParseIntPipe)
+    id: number,
+    @Body() profile //falta createprofiledto
   ) {
-    const updatedRecipe = await this.recipeService.updateRecipe(
-      recipeID,
-      CreateRecipeDTO,
-    );
-    if (!updatedRecipe)
-      throw new NotFoundException(
-        'Recipe cant be updated because it does not exist',
-      );
-    return res.status(HttpStatus.OK).json({
-      message: 'Recipe Updated Succesfully',
-      updatedRecipe,
-    });
+    return this.recipeService.createProfile(id, profile);
   }
+  
 }

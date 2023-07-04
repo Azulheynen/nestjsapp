@@ -1,9 +1,10 @@
-import { Document } from "mongoose"; 
 
-export interface Recipe extends Document {
+
+export interface Recipe  {
   name: string;
   ingredients: string;
   imageURL: string;
   category: string;
-  createdAt: Date;
+  id: number;
+
 }
